@@ -36,6 +36,12 @@ export class VideoPlayerComponent implements OnInit {
   }
 
   ngOnInit(): void {
-
+    //@ts-ignore
+    navigator.mediaDevices.getDisplayMedia({video:true}).then(stream => {
+      //@ts-ignore
+      document.getElementById("test").srcObject = stream;
+    }).catch(error => {
+      console.log(error);
+    });
   }
 }

@@ -13,19 +13,22 @@ import Conference from '@voxeet/voxeet-web-sdk/types/models/Conference';
   styleUrls: ['./conference.component.scss']
 })
 export class ConferenceComponent implements OnInit {
-  @ViewChild(VideoPanelComponent) private videoPanel! : VideoPanelComponent;
+  @ViewChild(VideoPanelComponent) private videoPanel!: VideoPanelComponent;
   private streamObserver: Observer<{ peer: Participant, stream: MediaStreamWithType, eventType: string }> = null;
 
   conferenceId: string = null;
   conference: Conference = null;
   name: string = null;
   me: Participant = null;
+  private lazyStream: any;
+  private currentPeer: any;
 
   error = null;
 
   audioActive = false;
   videoActive = false;
   shareScreenActive = false;
+  private peer: Participant;
 
   constructor(private confService: ConferenceService,
               private route: ActivatedRoute,
@@ -82,10 +85,14 @@ export class ConferenceComponent implements OnInit {
 
   private initStreamObserver() {
     this.streamObserver = {
-      next: ({ peer, stream, eventType }) => {
+      next: ({peer, stream, eventType}) => {
+        this.peer = peer;
+        this.currentPeer = peer;
         if (eventType === "streamAdded") {
           this.videoPanel.addParticipant(peer, stream);
         } else if (eventType === "streamUpdated") {
+          this.videoPanel.updateParticipant(peer, stream);
+        } else if (eventType === "ScreenShare") {
           this.videoPanel.updateParticipant(peer, stream);
         } else {
           this.videoPanel.removeParticipant(peer);
@@ -128,8 +135,42 @@ export class ConferenceComponent implements OnInit {
     if (this.shareScreenActive) {
       await this.confService.stopShare();
     } else {
-      await this.confService.startShare();
+      await this.confService.startShare()
     }
-    this.shareScreenActive = !this.shareScreenActive;
+  }
+
+
+
+  screenShare(): void {
+    this.shareScreen();
+  }
+
+  private shareScreen(): void {
+    // @ts-ignore
+    navigator.mediaDevices.getDisplayMedia({
+      video: {
+        cursor: 'always'
+      },
+      audio: {
+        echoCancellation: true,
+        noiseSuppression: true
+      }
+    }).then(stream => {
+      const videoTrack = stream.getVideoTracks()[0];
+      videoTrack.onended = () => {
+        this.stopScreenShare();
+      };
+
+      const sender = this.currentPeer.getSenders().find(s => s.track.kind === videoTrack.kind);
+      sender.replaceTrack(videoTrack);
+    }).catch(err => {
+      console.log('Unable to get display media ' + err);
+    });
+  }
+
+  private stopScreenShare(): void {
+    const videoTrack = this.lazyStream.getVideoTracks()[0];
+    const sender = this.currentPeer.getSenders().find(s => s.track.kind === videoTrack.kind);
+    sender.replaceTrack(videoTrack);
   }
 }

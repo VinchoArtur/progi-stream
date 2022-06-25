@@ -69,28 +69,7 @@ export class ConferenceService {
   }
 
   async startShare() {
-    await VoxeetSDK.conference.startScreenShare();
-    const addScreenShareNode = (stream) => {
-      const screenShareContainer = document.getElementById("screenshare-container");
-      let screenShareNode = document.getElementById("screenshare");
-
-      if (screenShareNode) {
-        return alert("There is already a participant sharing their screen!");
-      }
-      screenShareNode = document.createElement("video");
-      //@ts-ignore
-      screenShareNode.autoplay = "autoplay";
-      //@ts-ignore
-      screenShareNode.srcObject = stream;
-      // attachMediaStream(screenShareNode, stream);
-
-      screenShareContainer.appendChild(screenShareNode);
-    };
-    VoxeetSDK.conference.on("streamAdded", (participant, stream) => {
-      if (stream.type === "ScreenShare") {
-        return addScreenShareNode(stream);
-      }
-    })
+    await VoxeetSDK.conference.startScreenShare()
   }
 
   async stopShare() {
