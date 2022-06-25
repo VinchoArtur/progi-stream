@@ -27,8 +27,8 @@ export class VideoPlayerComponent implements OnInit {
         this.video.nativeElement.play();
         //ToDo hack to remove audio stream in video stream
         this.videoStream.getAudioTracks().forEach(track => {
-          this.videoStream.removeTrack(track);
-        });
+          track.enabled = false;
+        })
       } else {
         this.video.nativeElement.srcObject = null;
       }
