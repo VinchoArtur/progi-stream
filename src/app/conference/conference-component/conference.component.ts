@@ -25,6 +25,7 @@ export class ConferenceComponent implements OnInit {
 
   audioActive = false;
   videoActive = false;
+  shareScreenActive = false;
 
   constructor(private confService: ConferenceService,
               private route: ActivatedRoute,
@@ -46,6 +47,14 @@ export class ConferenceComponent implements OnInit {
 
   get toggleVideoButtonIcon(): string {
     return this.videoActive ? 'videocam_off' : 'videocam';
+  }
+
+  get toggleShareScreen(): string {
+    return !this.shareScreenActive ? 'screen_share' : 'stop_screen_share';
+  }
+
+  get toggleShareScreenButtonTitle(): string {
+    return this.audioActive ? 'Share screen' : 'Stop share screen';
   }
 
   async ngOnInit(): Promise<void> {
@@ -115,4 +124,12 @@ export class ConferenceComponent implements OnInit {
     await this.router.navigate(['/']);
   }
 
+  async onToggleShareCastingClick() {
+    if (this.shareScreenActive) {
+      await this.confService.stopShare();
+    } else {
+      await this.confService.startShare();
+    }
+    this.shareScreenActive = !this.shareScreenActive;
+  }
 }

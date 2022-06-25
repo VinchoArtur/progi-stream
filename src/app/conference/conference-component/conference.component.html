@@ -18,5 +18,8 @@
     <button mat-stroked-button id="leave-btn" (click)="onLeaveClick()" class="ctrl-button">
       <mat-icon>exit_to_app</mat-icon> Leave
     </button>
+    <button mat-stroked-button id="start-screenshare-btn" (click)="onToggleShareCastingClick()" class="ctrl-button">
+      <mat-icon>{{ toggleShareScreen }}</mat-icon> {{ toggleShareScreenButtonTitle }}
+    </button>
   </div>
 </div>
