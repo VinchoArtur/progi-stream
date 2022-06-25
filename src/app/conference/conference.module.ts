@@ -12,7 +12,7 @@ import {MatIconModule} from '@angular/material/icon';
 import {TopBarComponent} from './top-bar/top-bar.component';
 import {RouterModule} from '@angular/router';
 import {MatToolbarModule} from '@angular/material/toolbar';
-import {ReactiveFormsModule} from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatInputModule} from '@angular/material/input';
 import {MatCheckboxModule} from '@angular/material/checkbox';
@@ -35,19 +35,20 @@ import {MatCardModule} from '@angular/material/card';
   exports: [
     TopBarComponent
   ],
-  imports: [
-    CommonModule,
-    MatIconModule,
-    RouterModule,
-    MatToolbarModule,
-    ReactiveFormsModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatCheckboxModule,
-    MatSelectModule,
-    MatButtonModule,
-    MatCardModule
-  ]
+    imports: [
+        CommonModule,
+        MatIconModule,
+        RouterModule,
+        MatToolbarModule,
+        ReactiveFormsModule,
+        MatFormFieldModule,
+        MatInputModule,
+        MatCheckboxModule,
+        MatSelectModule,
+        MatButtonModule,
+        MatCardModule,
+        FormsModule
+    ]
 })
 export class ConferenceModule {
 }

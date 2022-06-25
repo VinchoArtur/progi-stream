@@ -22,6 +22,10 @@
       <mat-icon>{{ toggleShareScreen }}</mat-icon> {{ toggleShareScreenButtonTitle }}
     </button>
     <div style="width: 400px; height: 300px; border: 2px solid" id="remote-video"></div>
+    <div>{{peerId}}</div>
+    <div>{{peerList}}</div>
+    <input type="text" placeholder="Peer Id" [(ngModel)]='peerIdShare' />
+    <button class="button" (click)="connectWithPeer()">Call Peer</button>
     <button class="button" (click)="screenShare()">Screen share</button>
   </div>
 </div>
