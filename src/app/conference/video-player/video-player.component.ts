@@ -25,6 +25,10 @@ export class VideoPlayerComponent implements OnInit {
       if (this.videoStream != null && this.videoStream.getVideoTracks().length) {
         this.video.nativeElement.srcObject = this.videoStream;
         this.video.nativeElement.play();
+        //ToDo hack to remove audio stream in video stream
+        this.videoStream.getAudioTracks().forEach(track => {
+          this.videoStream.removeTrack(track);
+        });
       } else {
         this.video.nativeElement.srcObject = null;
       }
