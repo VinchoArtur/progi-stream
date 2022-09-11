@@ -146,3 +146,8 @@
   75%{opacity: 1;}
   100%{top: -100vh; opacity: 0;}
 }
+
+.mat-app-background::ng-deep {
+  color: white!important;
+  background: #fafafa radial-gradient(#9039a22e, #1f1013) !important;
+}
