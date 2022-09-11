@@ -22,6 +22,8 @@ export class JoinConferenceComponent implements OnInit {
 
   async ngOnInit(): Promise<void> {
     this.conferenceId = this.route.snapshot.paramMap.get('id');
+    //ToDo тут надо сделать хранилище всех пользователей
+
     this.conferenceForm.setValue({ id: this.conferenceId, name: '' });
   }
 
