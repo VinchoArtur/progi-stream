@@ -252,3 +252,18 @@ button:focus{
   position: relative;
   top: 225px;
 }
+
+
+@media screen and (max-width: 900px) {
+  .welcome-page-button-wrapper {
+    top: 40vh;
+  }
+
+  button {
+    font-size: 13px;
+  }
+
+  .header {
+    line-height: 1;
+  }
+}
